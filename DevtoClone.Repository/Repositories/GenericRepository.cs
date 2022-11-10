@@ -1,4 +1,5 @@
 ﻿using DevtoClone.Entities;
+using DevtoClone.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DevtoClone.Repository.Repositories
 {
-    public class GenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         internal RepositoryContext context;
         internal DbSet<TEntity> dbSet;

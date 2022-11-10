@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DevtoClone.Entities\DevtoClone.Entities.csproj" />
+    <ProjectReference Include="..\DevtoClone.Repository\DevtoClone.Repository.csproj" />
   </ItemGroup>
 
 </Project>

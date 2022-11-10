@@ -8,16 +8,21 @@ namespace DevtoClone.Repository
 {
     public class UnitOfWork : IDisposable
     {
-        private RepositoryContext context = new();
+        private RepositoryContext _context;
         private GenericRepository<User>? userRepository;
         private GenericRepository<Post>? postRepository;
         private GenericRepository<Tag>? tagRepository;
+
+        public UnitOfWork(RepositoryContext context)
+        {
+            _context = context;
+        }
 
         public GenericRepository<User> UserRepository
         {
             get
             {
-                this.userRepository ??= new GenericRepository<User>(context);
+                this.userRepository ??= new GenericRepository<User>(_context);
                 return userRepository;
             }
         }
@@ -26,7 +31,7 @@ namespace DevtoClone.Repository
         {
             get
             {
-                this.postRepository ??= new GenericRepository<Post>(context);
+                this.postRepository ??= new GenericRepository<Post>(_context);
                 return postRepository;
             }
         }
@@ -35,14 +40,14 @@ namespace DevtoClone.Repository
         {
             get
             {
-                this.tagRepository ??= new GenericRepository<Tag>(context);
+                this.tagRepository ??= new GenericRepository<Tag>(_context);
                 return tagRepository;
             }
         }
 
         public void Save()
         {
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         private bool disposed = false;
@@ -53,7 +58,7 @@ namespace DevtoClone.Repository
             {
                 if(disposing)
                 {
-                    context.Dispose();
+                    _context.Dispose();
                 }
             }
             this.disposed = true;
