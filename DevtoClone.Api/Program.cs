@@ -1,4 +1,5 @@
 using DevtoClone.Api.Extensions;
+using DevtoClone.Entities.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,9 @@ builder.Services.AddSwaggerGen();
 
 // Configure CORS
 builder.Services.ConfigureCors();
+
+// Services
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

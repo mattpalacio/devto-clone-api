@@ -1,4 +1,4 @@
-﻿using DevtoClone.Repository;
+﻿using DevtoClone.Entities.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevtoClone.Api.Controllers
@@ -6,14 +6,19 @@ namespace DevtoClone.Api.Controllers
     [Route("api/users")]
     public class UserController : Controller
     {
-        private UnitOfWork unitOfWork = new();
+        private IUnitOfWork _unitOfWork;
+
+        public UserController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
 
         [HttpGet]
         public  IActionResult GetAllUsers()
         {
             try
             {
-                var users = unitOfWork.UserRepository.Get();
+                var users = _unitOfWork.Users.Get();
                 return Ok(users);
             }
             catch (Exception)
