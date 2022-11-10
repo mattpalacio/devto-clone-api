@@ -1,4 +1,7 @@
-﻿namespace DevtoClone.Api.Extensions
+﻿using DevtoClone.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace DevtoClone.Api.Extensions
 {
     public static class ServiceCollectionExtensions
     {
@@ -17,10 +20,10 @@
         {
             var connectionString = config["ConnectionStrings:LocalDb"];
 
-            services.AddDbContext(options =>
+            services.AddDbContext<RepositoryContext>(options =>
             {
                 options.UseSqlServer(connectionString);
-            })
+            });
         }
     }
 }

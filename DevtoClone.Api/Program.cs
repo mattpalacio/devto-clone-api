@@ -2,6 +2,9 @@ using DevtoClone.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure Database Context
+builder.Services.ConfigureLocalDbContext(builder.Configuration);
+
 // Add services to the container.
 
 builder.Services.AddControllers();
