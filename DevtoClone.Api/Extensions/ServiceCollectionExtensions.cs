@@ -12,5 +12,15 @@
                 });
             });
         }
+
+        public static void ConfigureLocalDbContext(this IServiceCollection services, IConfiguration config)
+        {
+            var connectionString = config["ConnectionStrings:LocalDb"];
+
+            services.AddDbContext(options =>
+            {
+                options.UseSqlServer(connectionString);
+            })
+        }
     }
 }
