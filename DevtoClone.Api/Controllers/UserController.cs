@@ -19,6 +19,12 @@ namespace DevtoClone.Api.Controllers
             try
             {
                 var users = await _unitOfWork.Users.GetAsync();
+
+                if(users is null)
+                {
+                    return NotFound();
+                }
+
                 return Ok(users);
             }
             catch (Exception)
