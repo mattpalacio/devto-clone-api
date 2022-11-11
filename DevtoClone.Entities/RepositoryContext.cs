@@ -13,5 +13,28 @@ namespace DevtoClone.Entities
         public DbSet<User>? Users { get; set; }
         public DbSet<Post>? Posts { get; set; }
         public DbSet<Tag>? Tags { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Seed User table
+            modelBuilder.Entity<User>()
+                .HasData(
+                    new User
+                    {
+                        Username = "matt",
+                        Email = "matt@email.com"
+                    },
+                    new User
+                    {
+                        Username = "patrick",
+                        Email = "patrick@email.com"
+                    },
+                    new User
+                    {
+                        Username = "anne",
+                        Email = "anne@email.com"
+                    }
+                );
+        }
     }
 }
