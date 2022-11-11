@@ -14,11 +14,11 @@ namespace DevtoClone.Api.Controllers
         }
 
         [HttpGet]
-        public  IActionResult GetAllUsers()
+        public async Task<IActionResult> GetAllUsers()
         {
             try
             {
-                var users = _unitOfWork.Users.Get();
+                var users = await _unitOfWork.Users.GetAsync();
                 return Ok(users);
             }
             catch (Exception)

@@ -4,11 +4,11 @@ namespace DevtoClone.Repository.Interface
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        IEnumerable<TEntity> Get(
+        Task<IEnumerable<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>>? filter = null, 
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, 
             string includeProperties = "");
-        TEntity GetById(object id);
+        Task<TEntity> GetByIdAsync(object id);
         void Add(TEntity entity);
         void Delete(object id);
         void Delete(TEntity entityToDelete);

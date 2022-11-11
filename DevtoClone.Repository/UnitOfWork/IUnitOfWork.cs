@@ -13,6 +13,6 @@ namespace DevtoClone.Entities.UnitOfWork
         IPostRepository Posts { get; }
         ITagRepository Tags { get; }
 
-        void Save();
+        Task SaveAsync();
     }
 }

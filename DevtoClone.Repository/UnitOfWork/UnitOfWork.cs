@@ -1,5 +1,4 @@
-﻿using DevtoClone.Entities.Models;
-using DevtoClone.Repository.Interface;
+﻿using DevtoClone.Repository.Interface;
 using DevtoClone.Repository.Repositories;
 
 namespace DevtoClone.Entities.UnitOfWork
@@ -20,9 +19,9 @@ namespace DevtoClone.Entities.UnitOfWork
             Tags = new TagRepository(context);
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         private bool disposed = false;
