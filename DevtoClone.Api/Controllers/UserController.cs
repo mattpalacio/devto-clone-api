@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DevtoClone.Api.DTOs.User;
 using DevtoClone.Api.Mapper;
 using DevtoClone.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -27,11 +28,15 @@ namespace DevtoClone.Api.Controllers
             return Ok(usersDto);
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetUserById()
-        //{
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(Guid id)
+        {
+            var user = await _userService.GetUserById(id);
 
-        //}
+            var userDto = _mapper.Map<UserDto>(user);
+
+            return Ok(userDto);
+        }
 
         //[HttpPost]
         //public async Task<IActionResult> CreateUser()

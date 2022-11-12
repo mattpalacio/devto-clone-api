@@ -40,9 +40,23 @@ namespace DevtoClone.Core.Services
             }
         }
 
-        public Task<User> GetUserById(Guid id)
+        public async Task<User> GetUserById(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _unitOfWork.Users.GetByIdAsync(id);
+
+                if (user is null)
+                {
+                    throw new ArgumentNullException(nameof(user));
+                }
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public Task CreateUser(User user)

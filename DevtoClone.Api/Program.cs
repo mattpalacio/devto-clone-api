@@ -1,4 +1,6 @@
 using DevtoClone.Api.Extensions;
+using DevtoClone.Core.Interfaces;
+using DevtoClone.Core.Services;
 using DevtoClone.Entities.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +20,7 @@ builder.Services.ConfigureCors();
 
 // Services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 // Configure Automapper
 builder.Services.ConfigureAutoMapper();
