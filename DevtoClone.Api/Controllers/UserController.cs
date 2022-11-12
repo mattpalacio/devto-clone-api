@@ -1,4 +1,6 @@
-﻿using DevtoClone.Entities.UnitOfWork;
+﻿using AutoMapper;
+using DevtoClone.Api.Mapper;
+using DevtoClone.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevtoClone.Api.Controllers
@@ -6,31 +8,23 @@ namespace DevtoClone.Api.Controllers
     [Route("api/users")]
     public class UserController : Controller
     {
-        private IUnitOfWork _unitOfWork;
+        private IMapper _mapper;
+        private IUserService _userService;
 
-        public UserController(IUnitOfWork unitOfWork)
+        public UserController(IMapper mapper, IUserService userService)
         {
-            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            _userService = userService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
-            try
-            {
-                var users = await _unitOfWork.Users.GetAsync();
+            var users = await _userService.GetAllUsers();
 
-                if(users is null)
-                {
-                    return NotFound();
-                }
+            var usersDto = _mapper.MapUsers(users);
 
-                return Ok(users);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "Internal server error.");
-            }
+            return Ok(usersDto);
         }
 
         //[HttpGet("{id}")]

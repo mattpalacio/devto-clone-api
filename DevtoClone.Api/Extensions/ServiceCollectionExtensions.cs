@@ -1,4 +1,5 @@
-﻿using DevtoClone.Entities;
+﻿using DevtoClone.Api.Mapper;
+using DevtoClone.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DevtoClone.Api.Extensions
@@ -24,6 +25,11 @@ namespace DevtoClone.Api.Extensions
             {
                 options.UseSqlServer(connectionString);
             });
+        }
+
+        public static void ConfigureAutoMapper(this IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(MapperProfile));
         }
     }
 }

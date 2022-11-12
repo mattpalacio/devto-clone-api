@@ -19,6 +19,9 @@ builder.Services.ConfigureCors();
 // Services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+// Configure Automapper
+builder.Services.ConfigureAutoMapper();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
