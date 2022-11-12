@@ -12,14 +12,14 @@ namespace DevtoClone.Api.Controllers
     [Route("api/posts")]
     public class PostController : Controller
     {
-        //private IMapper _mapper;
-        //private IPostService _postService;
+        private IMapper _mapper;
+        private IPostService _postService;
 
-        //public PostController(IMapper mapper, IPostService postService)
-        //{
-        //    _mapper = mapper;
-        //    _postService = postService;
-        //}
+        public PostController(IMapper mapper, IPostService postService)
+        {
+            _mapper = mapper;
+            _postService = postService;
+        }
 
         //[HttpGet]
         //public async Task<IActionResult> GetAllPosts()
@@ -31,42 +31,42 @@ namespace DevtoClone.Api.Controllers
         //    return Ok(postsDto);
         //}
 
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetPostById(Guid id)
-        //{
-        //    var post = await _postService.GetPostById(id);
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPostById(Guid id)
+        {
+            var post = await _postService.GetPostById(id);
 
-        //    var postDto = _mapper.Map<PostDto>(post);
+            var postDto = _mapper.Map<PostDto>(post);
 
-        //    return Ok(postDto);
-        //}
+            return Ok(postDto);
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> CreatePost([FromBody] CreatePostDto postDto)
-        //{
-        //    var post = _mapper.Map<Post>(postDto);
+        [HttpPost]
+        public async Task<IActionResult> CreatePost([FromBody] CreatePostDto postDto)
+        {
+            var post = _mapper.Map<Post>(postDto);
 
-        //    await _postService.CreatePost(post);
+            await _postService.CreatePost(post, postDto.Tags);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> UpdatePost(Guid id, [FromBody] UpdatePostDto postDto)
-        //{
-        //    var post = _mapper.Map<Post>(postDto);
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePost(Guid id, [FromBody] UpdatePostDto postDto)
+        {
+            var post = _mapper.Map<Post>(postDto);
 
-        //    await _postService.UpdatePost(id, post);
+            await _postService.UpdatePost(id, post, postDto.Tags);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeletePost(Guid id)
-        //{
-        //    await _postService.DeletePost(id);
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePost(Guid id)
+        {
+            await _postService.DeletePost(id);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
     }
 }
