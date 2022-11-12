@@ -35,6 +35,23 @@ namespace DevtoClone.Entities
                         Email = "anne@email.com"
                     }
                 );
+
+            // Seed Tag Table
+            modelBuilder.Entity<Tag>()
+                .HasData(
+                    new Tag
+                    {
+                        Name = "html"
+                    },
+                    new Tag
+                    {
+                        Name = "css"
+                    },
+                    new Tag
+                    {
+                        Name = "javascript"
+                    }
+                );
         }
     }
 }
