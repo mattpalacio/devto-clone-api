@@ -59,19 +59,56 @@ namespace DevtoClone.Core.Services
             }
         }
 
-        public Task CreateUser(User user)
+        public async Task CreateUser(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _unitOfWork.Users.Add(user);
+
+                await _unitOfWork.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task UpdateUser(Guid id, User user)
+        public async Task UpdateUser(Guid id, User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var existingUser = await _unitOfWork.Users.GetByIdAsync(id);
+
+                if(existingUser is null)
+                {
+                    throw new ArgumentNullException(nameof(existingUser));
+                }
+
+                existingUser.Username = user.Username;
+                existingUser.Email = user.Email;
+
+                _unitOfWork.Users.Update(existingUser);
+
+                await _unitOfWork.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task DeleteUser(Guid id)
+        public async Task DeleteUser(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _unitOfWork.Users.Delete(id);
+
+                await _unitOfWork.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

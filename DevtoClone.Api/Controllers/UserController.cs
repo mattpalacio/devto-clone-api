@@ -2,6 +2,7 @@
 using DevtoClone.Api.DTOs.User;
 using DevtoClone.Api.Mapper;
 using DevtoClone.Core.Interfaces;
+using DevtoClone.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevtoClone.Api.Controllers
@@ -38,22 +39,32 @@ namespace DevtoClone.Api.Controllers
             return Ok(userDto);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> CreateUser()
-        //{
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserDto userDto)
+        {
+            var user = _mapper.Map<User>(userDto);
 
-        //}
+            await _userService.CreateUser(user);
 
-        //[HttpPut]
-        //public async Task<IActionResult> UpdateUser()
-        //{
+            return NoContent();
+        }
 
-        //}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UpdateUserDto userDto)
+        {
+            var user = _mapper.Map<User>(userDto);
 
-        //[HttpDelete]
-        //public async Task<IActionResult> DeleteUser()
-        //{
+            await _userService.UpdateUser(id, user);
 
-        //}
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(Guid id)
+        {
+            await _userService.DeleteUser(id);
+
+            return NoContent();
+        }
     }
 }
