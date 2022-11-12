@@ -59,6 +59,25 @@ namespace DevtoClone.Core.Services
             }
         }
 
+        public async Task<User> GetUserByEmail(string email)
+        {
+            try
+            {
+                var user = (await _unitOfWork.Users.GetAsync(filter: user => user.Email == email)).FirstOrDefault();
+
+                if (user is null)
+                {
+                    throw new ArgumentNullException(nameof(user));
+                }
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task CreateUser(User user)
         {
             try

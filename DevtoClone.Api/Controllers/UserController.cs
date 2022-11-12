@@ -29,10 +29,10 @@ namespace DevtoClone.Api.Controllers
             return Ok(usersDto);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(Guid id)
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetUserByEmail(string email)
         {
-            var user = await _userService.GetUserById(id);
+            var user = await _userService.GetUserByEmail(email);
 
             var userDto = _mapper.Map<UserDto>(user);
 
