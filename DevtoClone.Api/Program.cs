@@ -21,6 +21,7 @@ builder.Services.ConfigureCors();
 // Services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPostService, PostService>();
 
 // Configure Automapper
 builder.Services.ConfigureAutoMapper();

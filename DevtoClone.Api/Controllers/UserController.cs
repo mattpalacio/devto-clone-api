@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevtoClone.Api.Controllers
 {
+    [ApiController]
     [Route("api/users")]
     public class UserController : Controller
     {
@@ -24,7 +25,7 @@ namespace DevtoClone.Api.Controllers
         {
             var users = await _userService.GetAllUsers();
 
-            var usersDto = _mapper.MapUsers(users);
+            var usersDto = _mapper.Map<IEnumerable<User>>(users);
 
             return Ok(usersDto);
         }
