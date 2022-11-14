@@ -22,7 +22,7 @@ namespace DevtoClone.Api.Mapper
 
             // Post Mapper Profile
             CreateMap<Post, PostDto>()
-                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags)); // TODO: fix tags mapping
+                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => (IEnumerable<Tag>)src.Tags)); // TODO: fix tags mapping
             CreateMap<IEnumerable<Post>, IEnumerable<PostDto>>();
             CreateMap<CreatePostDto, Post>();
             CreateMap<UpdatePostDto, Post>();

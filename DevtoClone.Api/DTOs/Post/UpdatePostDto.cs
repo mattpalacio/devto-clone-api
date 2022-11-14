@@ -5,6 +5,6 @@
         public string Title { get; set; } = null!;
         public string Content { get; set; } = null!;
         public Guid UserId { get; set; }
-        public string[] Tags { get; set; } = null!;
+        public string[] PostTags { get; set; } = null!;
     }
 }

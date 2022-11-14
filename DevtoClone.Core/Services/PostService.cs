@@ -4,6 +4,7 @@ using DevtoClone.Entities.UnitOfWork;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,9 +50,31 @@ namespace DevtoClone.Core.Services
         {
             try
             {
+                post.Tags = new Collection<Tag>();
+
                 if(tags.Any())
                 {
-                    post.Tags = (ICollection<Tag>)(IEnumerable<Tag>)tags.Select(async tag =>
+                    //foreach (var tag in tags)
+                    //{
+                    //    var existingTag = (await _unitOfWork.Tags.GetAsync(filter: t => t.Name == tag)).FirstOrDefault();
+
+                    //    if (existingTag is null)
+                    //    {
+                    //        var newTag = new Tag
+                    //        {
+                    //            Name = tag
+                    //        };
+
+                    //        _unitOfWork.Tags.Add(newTag);
+
+                    //        post.Tags.Add(newTag);
+                    //        continue;
+                    //    }
+
+                    //    post.Tags.Add(existingTag);
+                    //}
+
+                    await Parallel.ForEachAsync(tags.ToList(), async (tag, token) =>
                     {
                         var existingTag = (await _unitOfWork.Tags.GetAsync(filter: t => t.Name == tag)).FirstOrDefault();
 
@@ -64,10 +87,12 @@ namespace DevtoClone.Core.Services
 
                             _unitOfWork.Tags.Add(newTag);
 
-                            return newTag;
+                            post.Tags.Add(newTag);
                         }
-
-                        return existingTag;
+                        else
+                        {
+                            post.Tags.Add(existingTag);
+                        }
                     });
                 }
 

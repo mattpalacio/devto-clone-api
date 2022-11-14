@@ -46,7 +46,7 @@ namespace DevtoClone.Api.Controllers
         {
             var post = _mapper.Map<Post>(postDto);
 
-            await _postService.CreatePost(post, postDto.Tags);
+            await _postService.CreatePost(post, postDto.PostTags);
 
             return NoContent();
         }
@@ -56,7 +56,7 @@ namespace DevtoClone.Api.Controllers
         {
             var post = _mapper.Map<Post>(postDto);
 
-            await _postService.UpdatePost(id, post, postDto.Tags);
+            await _postService.UpdatePost(id, post, postDto.PostTags);
 
             return NoContent();
         }
