@@ -12,21 +12,19 @@ namespace DevtoClone.Api.Mapper
         {
             // User Mapper Profile
             CreateMap<User, UserDto>();
-            CreateMap<IEnumerable<User>, IEnumerable<UserDto>>();
             CreateMap<CreateUserDto, User>();
             CreateMap<UpdateUserDto, User>();
 
-            // Tag Mapper Profile
-            CreateMap<Tag, TagDto>();
-            CreateMap<IEnumerable<Tag>, IEnumerable<TagDto>>();
-
             // Post Mapper Profile
             CreateMap<Post, PostDto>()
-                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => (IEnumerable<Tag>)src.Tags)); // TODO: fix tags mapping
-            CreateMap<IEnumerable<Post>, IEnumerable<PostDto>>();
+                .IncludeMembers(post => post.User, post => post.Tags);
+            CreateMap<User, PostDto>(MemberList.None);
+            CreateMap<ICollection<Tag>, PostDto>(MemberList.None);
             CreateMap<CreatePostDto, Post>();
             CreateMap<UpdatePostDto, Post>();
 
+            // Tag Mapper Profile
+            CreateMap<Tag, TagDto>();
         }
     }
 }

@@ -10,6 +10,7 @@ namespace DevtoClone.Repository.Interface
             string includeProperties = "");
         Task<TEntity> GetByIdAsync(object id);
         void Add(TEntity entity);
+        void AddRange(IEnumerable<TEntity> entities);
         void Delete(object id);
         void Delete(TEntity entityToDelete);
         void Update(TEntity entityToUpdate);

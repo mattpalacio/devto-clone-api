@@ -58,6 +58,11 @@ namespace DevtoClone.Repository.Repositories
             dbSet.Add(entity);
         }
 
+        public virtual void AddRange(IEnumerable<TEntity> entities)
+        {
+            dbSet.AddRange(entities);
+        }
+
         public virtual void Delete(object id)
         {
             TEntity entityToDelete = dbSet.Find(id);

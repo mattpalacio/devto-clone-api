@@ -12,8 +12,8 @@ namespace DevtoClone.Core.Services
 {
     public class UserService : IUserService
     {
-        private ILogger<UserService> _logger;
-        private IUnitOfWork _unitOfWork;
+        private readonly ILogger<UserService> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
         public UserService(ILogger<UserService> logger, IUnitOfWork unitOfWork)
         {
@@ -25,7 +25,7 @@ namespace DevtoClone.Core.Services
         {
             try
             {
-                var users = await _unitOfWork.Users.GetAsync();
+                var users = await _unitOfWork.Users.GetAsync(includeProperties: "Posts");
 
                 if (users is null)
                 {

@@ -12,8 +12,8 @@ namespace DevtoClone.Api.Controllers
     [Route("api/posts")]
     public class PostController : Controller
     {
-        private IMapper _mapper;
-        private IPostService _postService;
+        private readonly IMapper _mapper;
+        private readonly IPostService _postService;
 
         public PostController(IMapper mapper, IPostService postService)
         {

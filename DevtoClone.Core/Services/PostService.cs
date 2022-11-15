@@ -1,4 +1,5 @@
-﻿using DevtoClone.Core.Interfaces;
+﻿using Azure;
+using DevtoClone.Core.Interfaces;
 using DevtoClone.Entities.Models;
 using DevtoClone.Entities.UnitOfWork;
 using Microsoft.Extensions.Logging;
@@ -13,13 +14,36 @@ namespace DevtoClone.Core.Services
 {
     public class PostService : IPostService
     {
-        private ILogger<PostService> _logger;
-        private IUnitOfWork _unitOfWork;
+        private readonly ILogger<PostService> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
         public PostService(ILogger<PostService> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
+        }
+
+        private async Task<IEnumerable<Tag>> GetTagsAsync(string[] postTags)
+        {
+            IEnumerable<Tag> newTags;
+            var existingTags = await _unitOfWork.Tags.GetAsync(filter: x => postTags.Any(t => t == x.Name));
+
+            if(existingTags.Any())
+            {
+                newTags = postTags.Where(t => existingTags.Any(et => et.Name != t)).Select(tag => new Tag { Name = tag });
+            }
+            else
+            {
+                newTags = postTags.Select(tag => new Tag { Name = tag });
+            }
+
+            if(newTags.Any())
+            {
+                _unitOfWork.Tags.AddRange(newTags);
+                await _unitOfWork.SaveAsync();
+            }
+
+            return existingTags.Concat(newTags);
         }
 
         //public Task<IEnumerable<Post>> GetAllPosts()
@@ -31,7 +55,7 @@ namespace DevtoClone.Core.Services
         {
             try
             {
-                var post = await _unitOfWork.Posts.GetByIdAsync(id);
+                var post = (await _unitOfWork.Posts.GetAsync(filter: p => p.Id == id, includeProperties: "User,Tags")).FirstOrDefault();
 
                 if (post is null)
                 {
@@ -46,58 +70,20 @@ namespace DevtoClone.Core.Services
             }
         }
 
-        public async Task CreatePost(Post post, string[] tags)
+        public async Task CreatePost(Post post, string[] postTags)
         {
             try
             {
-                post.Tags = new Collection<Tag>();
-
-                if(tags.Any())
+                if(postTags.Any())
                 {
-                    //foreach (var tag in tags)
-                    //{
-                    //    var existingTag = (await _unitOfWork.Tags.GetAsync(filter: t => t.Name == tag)).FirstOrDefault();
-
-                    //    if (existingTag is null)
-                    //    {
-                    //        var newTag = new Tag
-                    //        {
-                    //            Name = tag
-                    //        };
-
-                    //        _unitOfWork.Tags.Add(newTag);
-
-                    //        post.Tags.Add(newTag);
-                    //        continue;
-                    //    }
-
-                    //    post.Tags.Add(existingTag);
-                    //}
-
-                    await Parallel.ForEachAsync(tags.ToList(), async (tag, token) =>
+                    var tags = await GetTagsAsync(postTags);
+                    foreach (var tag in tags)
                     {
-                        var existingTag = (await _unitOfWork.Tags.GetAsync(filter: t => t.Name == tag)).FirstOrDefault();
-
-                        if (existingTag is null)
-                        {
-                            var newTag = new Tag
-                            {
-                                Name = tag
-                            };
-
-                            _unitOfWork.Tags.Add(newTag);
-
-                            post.Tags.Add(newTag);
-                        }
-                        else
-                        {
-                            post.Tags.Add(existingTag);
-                        }
-                    });
+                        post.Tags.Add(tag);
+                    }
                 }
 
                 _unitOfWork.Posts.Add(post);
-
                 await _unitOfWork.SaveAsync();
             }
             catch (Exception ex)
@@ -106,7 +92,7 @@ namespace DevtoClone.Core.Services
             }
         }
 
-        public async Task UpdatePost(Guid id, Post post, string[] tags)
+        public async Task UpdatePost(Guid id, Post post, string[] postTags)
         {
             try
             {
@@ -117,33 +103,19 @@ namespace DevtoClone.Core.Services
                     throw new ArgumentNullException(nameof(existingPost));
                 }
 
-                if (tags.Any())
+                if (postTags.Any())
                 {
-                    existingPost.Tags = (ICollection<Tag>)(IEnumerable<Tag>)tags.Select(async tag =>
+                    var tags = await GetTagsAsync(postTags);
+                    foreach (var tag in tags)
                     {
-                        var existingTag = (await _unitOfWork.Tags.GetAsync(filter: t => t.Name == tag)).FirstOrDefault();
-
-                        if (existingTag is null)
-                        {
-                            var newTag = new Tag
-                            {
-                                Name = tag
-                            };
-
-                            _unitOfWork.Tags.Add(newTag);
-
-                            return newTag;
-                        }
-
-                        return existingTag;
-                    });
+                        post.Tags.Add(tag);
+                    }
                 }
 
                 existingPost.Title = post.Title;
                 existingPost.Content = post.Content;
 
                 _unitOfWork.Posts.Update(existingPost);
-
                 await _unitOfWork.SaveAsync();
             }
             catch (Exception ex)
