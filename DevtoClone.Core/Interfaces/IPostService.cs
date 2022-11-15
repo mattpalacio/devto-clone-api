@@ -9,7 +9,7 @@ namespace DevtoClone.Core.Interfaces
 {
     public interface IPostService
     {
-        //public Task<IEnumerable<Post>> GetAllPosts();
+        public Task<IEnumerable<Post>> GetAllPosts();
         public Task<Post> GetPostById(Guid id);
         public Task CreatePost(Post post, string[] tags);
         public Task UpdatePost(Guid id, Post post, string[] tags);

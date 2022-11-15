@@ -21,15 +21,15 @@ namespace DevtoClone.Api.Controllers
             _postService = postService;
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetAllPosts()
-        //{
-        //    var posts = await _postService.GetAllPosts();
+        [HttpGet]
+        public async Task<IActionResult> GetAllPosts()
+        {
+            var posts = await _postService.GetAllPosts();
 
-        //    var postsDto = _mapper.MapPosts(posts);
+            var postsDto = _mapper.Map<IEnumerable<PostDto>>(posts);
 
-        //    return Ok(postsDto);
-        //}
+            return Ok(postsDto);
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPostById(Guid id)

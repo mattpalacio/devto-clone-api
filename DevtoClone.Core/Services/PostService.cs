@@ -46,16 +46,24 @@ namespace DevtoClone.Core.Services
             return existingTags.Concat(newTags);
         }
 
-        //public Task<IEnumerable<Post>> GetAllPosts()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public async Task<IEnumerable<Post>> GetAllPosts()
+        {
+            try
+            {
+                return await _unitOfWork.Posts.GetAsync(includeProperties: "User,Tags");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         public async Task<Post> GetPostById(Guid id)
         {
             try
             {
-                var post = (await _unitOfWork.Posts.GetAsync(filter: p => p.Id == id, includeProperties: "User,Tags")).FirstOrDefault();
+                var post = (await _unitOfWork.Posts.GetAsync(filter: p => p.Id == id, includeProperties: "User,Tags"))
+                    .FirstOrDefault();
 
                 if (post is null)
                 {
