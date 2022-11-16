@@ -25,7 +25,7 @@ namespace DevtoClone.Api.Controllers
         {
             var users = await _userService.GetAllUsers();
 
-            var usersDto = _mapper.Map<IEnumerable<User>>(users);
+            var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
 
             return Ok(usersDto);
         }
