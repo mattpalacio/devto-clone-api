@@ -44,7 +44,7 @@ namespace DevtoClone.Core.Services
         {
             try
             {
-                var user = await _unitOfWork.Users.GetByIdAsync(id);
+                var user = await _unitOfWork.Users.GetUserByIdWithPostsAsync(id);
 
                 if (user is null)
                 {
@@ -63,8 +63,7 @@ namespace DevtoClone.Core.Services
         {
             try
             {
-                var user = (await _unitOfWork.Users.GetAsync(filter: user => user.Email == email, includeProperties: "Posts"))
-                    .FirstOrDefault();
+                var user = await _unitOfWork.Users.GetUserByEmailWithPostsAsync(email);
 
                 if (user is null)
                 {

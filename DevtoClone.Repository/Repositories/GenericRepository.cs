@@ -12,13 +12,13 @@ namespace DevtoClone.Repository.Repositories
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        internal RepositoryContext context;
-        internal DbSet<TEntity> dbSet;
+        protected readonly RepositoryContext _context;
+        private readonly DbSet<TEntity> _dbSet;
 
         public GenericRepository(RepositoryContext context)
         {
-            this.context = context;
-            this.dbSet = context.Set<TEntity>();
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _dbSet = context.Set<TEntity>();
         }
 
         public virtual async Task<IEnumerable<TEntity>> GetAsync(
@@ -26,7 +26,7 @@ namespace DevtoClone.Repository.Repositories
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
             string includeProperties = "")
         {
-            IQueryable<TEntity> query = dbSet;
+            IQueryable<TEntity> query = _dbSet;
 
             if(filter is not null)
             {
@@ -48,41 +48,41 @@ namespace DevtoClone.Repository.Repositories
             }
         }
 
-        public virtual async Task<TEntity> GetByIdAsync(object id)
+        public virtual async Task<TEntity?> GetByIdAsync(object id)
         {
-            return await dbSet.FindAsync(id);
+            return await _dbSet.FindAsync(id);
         }
 
         public virtual void Add(TEntity entity)
         {
-            dbSet.Add(entity);
+            _dbSet.Add(entity);
         }
 
         public virtual void AddRange(IEnumerable<TEntity> entities)
         {
-            dbSet.AddRange(entities);
+            _dbSet.AddRange(entities);
         }
 
         public virtual void Delete(object id)
         {
-            TEntity entityToDelete = dbSet.Find(id);
+            TEntity? entityToDelete = _dbSet.Find(id);
             Delete(entityToDelete);
         }
 
         // Used for concurrency handling
         public virtual void Delete(TEntity entityToDelete)
         {
-            if(context.Entry(entityToDelete).State is EntityState.Modified)
+            if(_context.Entry(entityToDelete).State is EntityState.Modified)
             {
-                dbSet.Attach(entityToDelete);
+                _dbSet.Attach(entityToDelete);
             }
-            dbSet.Remove(entityToDelete);
+            _dbSet.Remove(entityToDelete);
         }
 
         public virtual void Update(TEntity entityToUpdate)
         {
-            dbSet.Attach(entityToUpdate);
-            context.Entry(entityToUpdate).State = EntityState.Modified;
+            _dbSet.Attach(entityToUpdate);
+            _context.Entry(entityToUpdate).State = EntityState.Modified;
         }
     }
 }

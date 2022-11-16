@@ -9,7 +9,7 @@ namespace DevtoClone.Api.DTOs.Post
         public DateTime CreatedDate { get; set; }
         public string Title { get; set; } = null!;
         public string Content { get; set; } = null!;
-        public UserDto User { get; set; } = null!;
+        public UserDto? User { get; set; }
         public IEnumerable<TagDto> Tags { get; set; } = null!;
     }
 }

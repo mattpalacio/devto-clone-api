@@ -9,5 +9,7 @@ namespace DevtoClone.Repository.Interface
 {
     public interface IUserRepository : IGenericRepository<User>
     {
+        public Task<User> GetUserByIdWithPostsAsync(Guid id);
+        public Task<User> GetUserByEmailWithPostsAsync(string email);
     }
 }

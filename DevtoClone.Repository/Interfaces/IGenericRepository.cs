@@ -8,7 +8,7 @@ namespace DevtoClone.Repository.Interface
             Expression<Func<TEntity, bool>>? filter = null, 
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, 
             string includeProperties = "");
-        Task<TEntity> GetByIdAsync(object id);
+        Task<TEntity?> GetByIdAsync(object id);
         void Add(TEntity entity);
         void AddRange(IEnumerable<TEntity> entities);
         void Delete(object id);
