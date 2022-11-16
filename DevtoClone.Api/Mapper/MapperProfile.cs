@@ -13,10 +13,7 @@ namespace DevtoClone.Api.Mapper
         {
             // User Mapper Profile
             CreateMap<User, UserDto>()
-                .ForMember(dest => dest.Posts, opts =>
-                {
-                    opts.Condition(src => !src.Posts.IsNullOrEmpty());
-                });
+                .ForMember(dest => dest.Posts, opts => opts.Condition(src => !src.Posts.IsNullOrEmpty()));
             CreateMap<ICollection<Post>, UserDto>(MemberList.None);
             CreateMap<CreateUserDto, User>();
             CreateMap<UpdateUserDto, User>();
