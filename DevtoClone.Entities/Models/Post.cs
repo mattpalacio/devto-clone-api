@@ -20,8 +20,8 @@ namespace DevtoClone.Entities.Models
 
         [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
-        public User User { get; set; } = null!;
+        public virtual User User { get; set; } = null!;
 
-        public ICollection<Tag> Tags { get; set; } = null!;
+        public virtual ICollection<Tag> Tags { get; set; } = new HashSet<Tag>();
     }
 }

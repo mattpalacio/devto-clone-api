@@ -14,6 +14,6 @@ namespace DevtoClone.Entities.Models
         [MaxLength(100, ErrorMessage = "Length must be less than 100 characters.")]
         public string Name { get; set; } = null!;
 
-        public ICollection<Post> Posts { get; set; } = null!;
+        public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();
     }
 }

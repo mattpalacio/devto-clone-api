@@ -20,6 +20,7 @@ namespace DevtoClone.Entities.Models
         [EmailAddress(ErrorMessage = "Must be a valid email format.")]
         public string Email { get; set; } = null!;
 
-        public ICollection<Post> Posts { get; set; } = null!;
+        [InverseProperty("User")]
+        public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();
     }
 }
