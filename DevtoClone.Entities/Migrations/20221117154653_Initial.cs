@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace DevtoClone.Entities.Migrations
 {
     /// <inheritdoc />
@@ -82,6 +84,26 @@ namespace DevtoClone.Entities.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Tags",
+                columns: new[] { "TagId", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("281d25ec-16ae-43a8-ad8c-c1ba99175ad7"), "javascript" },
+                    { new Guid("6b040c1a-f4a8-4334-b883-65fbcda1ea40"), "css" },
+                    { new Guid("f3acf917-d9f1-458b-8573-097f51b21bc7"), "html" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "Email", "JoinedDate", "Username" },
+                values: new object[,]
+                {
+                    { new Guid("4943fed9-ac05-4c13-a90a-411f661f5c6f"), "patrick@email.com", new DateTime(2022, 11, 17, 15, 46, 53, 547, DateTimeKind.Utc).AddTicks(9980), "patrick" },
+                    { new Guid("faf26763-c41b-4f70-9e42-f9ac2c20ea45"), "anne@email.com", new DateTime(2022, 11, 17, 15, 46, 53, 547, DateTimeKind.Utc).AddTicks(9981), "anne" },
+                    { new Guid("fc447ce2-f6f5-4053-8306-a544a02e5645"), "matt@email.com", new DateTime(2022, 11, 17, 15, 46, 53, 547, DateTimeKind.Utc).AddTicks(9978), "matt" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_UserId",
                 table: "Posts",
@@ -91,6 +113,12 @@ namespace DevtoClone.Entities.Migrations
                 name: "IX_PostTag_TagsId",
                 table: "PostTag",
                 column: "TagsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tags_Name",
+                table: "Tags",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",

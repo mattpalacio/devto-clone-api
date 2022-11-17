@@ -65,22 +65,25 @@ namespace DevtoClone.Entities.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Tags");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9ac89a6d-d440-455b-b303-a6d52b4e12b3"),
+                            Id = new Guid("f3acf917-d9f1-458b-8573-097f51b21bc7"),
                             Name = "html"
                         },
                         new
                         {
-                            Id = new Guid("84f16bfd-5c77-47d1-8301-3d567b6acbc1"),
+                            Id = new Guid("6b040c1a-f4a8-4334-b883-65fbcda1ea40"),
                             Name = "css"
                         },
                         new
                         {
-                            Id = new Guid("5d11cde9-98ee-4844-8845-09714c472740"),
+                            Id = new Guid("281d25ec-16ae-43a8-ad8c-c1ba99175ad7"),
                             Name = "javascript"
                         });
                 });
@@ -117,23 +120,23 @@ namespace DevtoClone.Entities.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("015e75c9-b674-4f52-905c-0fa19c29abe1"),
+                            Id = new Guid("fc447ce2-f6f5-4053-8306-a544a02e5645"),
                             Email = "matt@email.com",
-                            JoinedDate = new DateTime(2022, 11, 12, 7, 21, 13, 33, DateTimeKind.Utc).AddTicks(6879),
+                            JoinedDate = new DateTime(2022, 11, 17, 15, 46, 53, 547, DateTimeKind.Utc).AddTicks(9978),
                             Username = "matt"
                         },
                         new
                         {
-                            Id = new Guid("ec772a59-3617-4fc6-a971-a45730f87c55"),
+                            Id = new Guid("4943fed9-ac05-4c13-a90a-411f661f5c6f"),
                             Email = "patrick@email.com",
-                            JoinedDate = new DateTime(2022, 11, 12, 7, 21, 13, 33, DateTimeKind.Utc).AddTicks(6882),
+                            JoinedDate = new DateTime(2022, 11, 17, 15, 46, 53, 547, DateTimeKind.Utc).AddTicks(9980),
                             Username = "patrick"
                         },
                         new
                         {
-                            Id = new Guid("cddabe69-be5c-43be-ab25-5f3e5818b813"),
+                            Id = new Guid("faf26763-c41b-4f70-9e42-f9ac2c20ea45"),
                             Email = "anne@email.com",
-                            JoinedDate = new DateTime(2022, 11, 12, 7, 21, 13, 33, DateTimeKind.Utc).AddTicks(6883),
+                            JoinedDate = new DateTime(2022, 11, 17, 15, 46, 53, 547, DateTimeKind.Utc).AddTicks(9981),
                             Username = "anne"
                         });
                 });

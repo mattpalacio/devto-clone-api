@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevtoClone.Entities.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20221110180100_Initial")]
+    [Migration("20221117154653_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -68,7 +68,27 @@ namespace DevtoClone.Entities.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Tags");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f3acf917-d9f1-458b-8573-097f51b21bc7"),
+                            Name = "html"
+                        },
+                        new
+                        {
+                            Id = new Guid("6b040c1a-f4a8-4334-b883-65fbcda1ea40"),
+                            Name = "css"
+                        },
+                        new
+                        {
+                            Id = new Guid("281d25ec-16ae-43a8-ad8c-c1ba99175ad7"),
+                            Name = "javascript"
+                        });
                 });
 
             modelBuilder.Entity("DevtoClone.Entities.Models.User", b =>
@@ -99,6 +119,29 @@ namespace DevtoClone.Entities.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("fc447ce2-f6f5-4053-8306-a544a02e5645"),
+                            Email = "matt@email.com",
+                            JoinedDate = new DateTime(2022, 11, 17, 15, 46, 53, 547, DateTimeKind.Utc).AddTicks(9978),
+                            Username = "matt"
+                        },
+                        new
+                        {
+                            Id = new Guid("4943fed9-ac05-4c13-a90a-411f661f5c6f"),
+                            Email = "patrick@email.com",
+                            JoinedDate = new DateTime(2022, 11, 17, 15, 46, 53, 547, DateTimeKind.Utc).AddTicks(9980),
+                            Username = "patrick"
+                        },
+                        new
+                        {
+                            Id = new Guid("faf26763-c41b-4f70-9e42-f9ac2c20ea45"),
+                            Email = "anne@email.com",
+                            JoinedDate = new DateTime(2022, 11, 17, 15, 46, 53, 547, DateTimeKind.Utc).AddTicks(9981),
+                            Username = "anne"
+                        });
                 });
 
             modelBuilder.Entity("PostTag", b =>
