@@ -20,8 +20,8 @@ namespace DevtoClone.Api.Mapper
 
             // Post Mapper Profile
             CreateMap<Post, PostDto>()
-                .IncludeMembers(post => post.User, post => post.Tags);
-            CreateMap<User, PostDto>(MemberList.None);
+                .ForPath(dest => dest.Author.AuthorId, opts => opts.MapFrom(src => src.UserId))
+                .ForPath(dest => dest.Author.Name, opts => opts.MapFrom(src => src.User.Username));
             CreateMap<ICollection<Tag>, PostDto>(MemberList.None);
             CreateMap<CreatePostDto, Post>();
             CreateMap<UpdatePostDto, Post>();

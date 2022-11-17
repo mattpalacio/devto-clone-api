@@ -41,7 +41,7 @@ namespace DevtoClone.Core.Services
         {
             try
             {
-                return await _unitOfWork.Posts.GetAsync(includeProperties: "User,Tags");
+                return await _unitOfWork.Posts.GetAllPosts();
             }
             catch (Exception ex)
             {

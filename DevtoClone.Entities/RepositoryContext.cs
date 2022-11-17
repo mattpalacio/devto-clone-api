@@ -7,7 +7,7 @@ namespace DevtoClone.Entities
     {
         public RepositoryContext(DbContextOptions options) : base(options)
         {
-
+            this.ChangeTracker.LazyLoadingEnabled = false;
         }
 
         public DbSet<User> Users { get; set; }

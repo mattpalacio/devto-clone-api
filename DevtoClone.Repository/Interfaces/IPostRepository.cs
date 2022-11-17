@@ -9,5 +9,6 @@ namespace DevtoClone.Repository.Interface
 {
     public interface IPostRepository : IGenericRepository<Post>
     {
+        public Task<IEnumerable<Post>> GetAllPosts();
     }
 }
